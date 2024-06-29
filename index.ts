@@ -82,6 +82,20 @@ async function getOpenAIResponse(userText) {
   - https://deliver.latoken.com/jobs - дальше тут есть ссылки на 3 актуальные вакансии https://deliver.latoken.com/jobs/gptxweb3 и https://hh.ru/vacancy/98569710?hhtmFrom=employer_vacancies и Разработчик операций/продаж Меняющим профессию на разработчика или фанаты автоматизации
   - https://deliver.latoken.com/about
   
+  Хакатон проходит по следующему расписанию:
+  
+  Пятница 28 июня
+  
+  18:00 Презентация компании и обсуждение задачи.
+  
+  Суббота 29 июня: 
+  
+  17:00 Чекпоинт.
+  
+  18:00 Демо результатов.
+  
+  19:00 Объявление победителей, интервью и офферы.
+  
   Вопрос: ${userText}`;
 
   const response = await openai.chat.completions.create({
