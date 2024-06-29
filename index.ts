@@ -10,7 +10,6 @@ const openai = new OpenAI({
 
 const bot = new TelegramBot(process.env.BOTKEY, { polling: true });
 
-// Обработчик команды /start
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
@@ -27,7 +26,6 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-// Обработчик нажатий на кнопки и сообщений
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const userText = msg.text;
@@ -81,6 +79,20 @@ async function getOpenAIResponse(userText) {
   - https://coda.io/@latoken/latoken-talent/the-principles-olympics-of-freedom-and-responsibility-to-build-t-60 - здесь ответь четко как там написано
   - https://deliver.latoken.com/jobs - дальше тут есть ссылки на 3 актуальные вакансии https://deliver.latoken.com/jobs/gptxweb3 и https://hh.ru/vacancy/98569710?hhtmFrom=employer_vacancies и Разработчик операций/продаж Меняющим профессию на разработчика или фанаты автоматизации
   - https://deliver.latoken.com/about
+  
+  Хакатон проходит по следующему расписанию:
+  
+  Пятница 28 июня
+  
+  18:00 Презентация компании и обсуждение задачи.
+  
+  Суббота 29 июня: 
+  
+  17:00 Чекпоинт.
+  
+  18:00 Демо результатов.
+  
+  19:00 Объявление победителей, интервью и офферы.
   
   Вопрос: ${userText}`;
 
