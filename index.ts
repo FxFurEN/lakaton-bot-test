@@ -15,7 +15,7 @@ bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
   try {
-    await bot.sendMessage(chatId, "Привет! Я бот, созданный для тестового задания в LAKATON.\n\nСсылка на GitHub: https://github.com/FxFurEN/lakaton-bot-test", {
+    await bot.sendMessage(chatId, "Приветсвую!", {
       reply_markup: {
         keyboard: [["Узнать больше о боте"], ["Чат с ботом"]],
         resize_keyboard: true,
@@ -41,7 +41,7 @@ bot.on('message', async (msg) => {
     if (userText === "Узнать больше о боте") {
       const message = `Привет! Я бот, созданный для тестового задания в LAKATON. Вот некоторая полезная информация о мне:
     
-  🤖 **GitHub:** [Ссылка на мой GitHub](https://github.com/FxFurEN/lakaton-bot-test)`;
+  🤖 **GitHub:** [Ссылка на мой GitHub](https://github.com/FxFurEN/latoken-bot)`;
     
       await bot.sendMessage(chatId, message, {
         parse_mode: "Markdown",
