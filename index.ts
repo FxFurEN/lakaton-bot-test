@@ -10,7 +10,6 @@ const openai = new OpenAI({
 
 const bot = new TelegramBot(process.env.BOTKEY, { polling: true });
 
-// Обработчик команды /start
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
@@ -27,7 +26,6 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-// Обработчик нажатий на кнопки и сообщений
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const userText = msg.text;
