@@ -15,9 +15,9 @@ bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
   try {
-    await bot.sendMessage(chatId, "Бот создан для тестового задания в LAKATON\n\ngithub:https://github.com/FxFurEN/lakaton-bot-test", {
+    await bot.sendMessage(chatId, "Привет! Я бот, созданный для тестового задания в LAKATON.\n\nСсылка на GitHub: https://github.com/FxFurEN/lakaton-bot-test", {
       reply_markup: {
-        keyboard: [["Начать тест"], ["Чат с ботом"]],
+        keyboard: [["Узнать больше о боте"], ["Чат с ботом"]],
         resize_keyboard: true,
       },
     });
@@ -27,7 +27,7 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-// Обработчик нажатий на кнопки
+// Обработчик нажатий на кнопки и сообщений
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const userText = msg.text;
@@ -38,69 +38,40 @@ bot.on('message', async (msg) => {
   }
   
   try {
-    if (userText === "Начать тест") {
-      await startTest(chatId);
-    } else if (userText === "Чат с ботом") {
+    if (userText === "Узнать больше о боте") {
+      const message = `Привет! Я бот, созданный для тестового задания в LAKATON. Вот некоторая полезная информация о мне:
+    
+  🤖 **GitHub:** [Ссылка на мой GitHub](https://github.com/FxFurEN/lakaton-bot-test)`;
+    
+      await bot.sendMessage(chatId, message, {
+        parse_mode: "Markdown",
+        reply_markup: {
+          keyboard: [["Чат с ботом"]],
+          resize_keyboard: true,
+        },
+      });
+    }
+     else if (userText === "Чат с ботом") {
       await bot.sendMessage(chatId, "Вы можете начать общение с ботом прямо сейчас!", {
         reply_markup: {
-          keyboard: [["Начать тест"]],
+          keyboard: [["Узнать больше о боте"]],
           resize_keyboard: true,
         },
       });
     } else {
-      if (isTakingTest) {
-        answers.push(userText);
-        currentQuestionIndex++;
-        await sendNextQuestion(chatId);
-      } else {
-        const aiResponse = await getOpenAIResponse(userText);
-        bot.sendMessage(chatId, aiResponse, {
-          reply_markup: {
-            keyboard: [["Начать тест"]],
-            resize_keyboard: true,
-          },
-        });
-      }
+      const aiResponse = await getOpenAIResponse(userText);
+      bot.sendMessage(chatId, aiResponse, {
+        reply_markup: {
+          keyboard: [["Узнать больше о боте"]],
+          resize_keyboard: true,
+        },
+      });
     }
   } catch (error) {
     console.error("Error handling user message:", error);
     bot.sendMessage(chatId, "Произошла ошибка при обработке вашего запроса. Пожалуйста, попробуйте позже.");
   }
 });
-
-// Логика теста
-let isTakingTest = false;
-let currentQuestionIndex = 0;
-let answers = [];
-
-const questions = [
-  "Вопрос 1: Какой ваш любимый цвет?",
-  "Вопрос 2: Что вы предпочитаете: кофе или чай?",
-  "Вопрос 3: Какой ваш любимый сезон года?",
-];
-
-async function sendNextQuestion(chatId) {
-  if (currentQuestionIndex < questions.length) {
-    await bot.sendMessage(chatId, questions[currentQuestionIndex], {
-      reply_markup: {
-        keyboard: [["Ответ 1", "Ответ 2"]],
-        resize_keyboard: true,
-        one_time_keyboard: true,
-      },
-    });
-  } else {
-    const resultMessage = `Спасибо за прохождение теста!\n\nВаши ответы:\n\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}`;
-    bot.sendMessage(chatId, resultMessage, {
-      reply_markup: {
-        keyboard: [["Начать тест"], ["Чат с ботом"]],
-        resize_keyboard: true,
-      },
-    });
-    isTakingTest = false;
-    currentQuestionIndex = 0;
-    answers = [];
-  }
-}
 
 async function getOpenAIResponse(userText) {
   const prompt = `You are an AI assistant at LATOKEN. Answer questions naturally and informatively based on the provided information:
@@ -123,19 +94,6 @@ async function getOpenAIResponse(userText) {
   });
 
   return response.choices[0].message.content.trim();
-}
-
-async function startTest(chatId) {
-  isTakingTest = true;
-  answers = [];
-  await bot.sendMessage(chatId, "Тест начат!", {
-    reply_markup: {
-      keyboard: [["Ответ 1", "Ответ 2"]],
-      resize_keyboard: true,
-      one_time_keyboard: true,
-    },
-  });
-  await sendNextQuestion(chatId);
 }
 
 console.log("Bot is running...");
